@@ -9,8 +9,9 @@ const SEASONS = ['Winter', 'Winter', 'Spring', 'Spring', 'Spring', 'Summer', 'Su
 const TO_NIGHT_CAPTION = 'Switch to Night Mode';
 const TO_DAY_CAPTION = 'Switch to Day Mode';
 // alert(window.outerWidth + ',' + window.innerWidth + ',' + window.devicePixelRatio);
-let calcW = window.outerWidth ? window.outerWidth * window.devicePixelRatio : window.innerWidth;
-let targWidth = (calcW < 500 ? calcW : 500) - 60 * window.devicePixelRatio;
-getByID('outer-main').attr('style', 'width:' + (40 + targWidth) + 'px;');
-new GraphDisplay(30, 40, targWidth, 300, 'main', 60, 60, 60, JSON.parse(data));
+// let calcW = window.outerWidth ? window.outerWidth * window.devicePixelRatio : window.innerWidth;
+// let targWidth = (calcW < 500 ? calcW : 500) - 60 * window.devicePixelRatio;
+let targWidth = window.innerWidth;
+getByID('outer-main').attr('style', 'width:' + (2 + targWidth) + 'px;');
+new GraphDisplay(30, 40, targWidth - 40, 300, 'main', 60, 60, 60, JSON.parse(data));
 
