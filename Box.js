@@ -126,7 +126,8 @@ class Box {
         this.dragMode = mode;
         this.stopTweenX && this.stopTweenX();
         this.stopTweenW && this.stopTweenW();
-        this.dragX = evt.offsetX - this.dragBox.x;
+        let eventX = evt.clientX - this.getMain().getBoundingClientRect().left;
+        this.dragX = eventX - this.dragBox.x;
         this.leftEdge = this.dragBox.x;
         this.rightEdge = this.dragBox.x + this.dragBox.w;
         this.getMain().addEventListener('mousemove', this.handleDragMove);
@@ -154,22 +155,23 @@ class Box {
     handleDragMove (evt) {
         let oldX = this.dragBox.x;
         let oldW = this.dragBox.w;
+        let eventX = evt.clientX - this.getMain().getBoundingClientRect().left;
         switch(this.dragMode){
             case this.DRAG_ALL:
-                this.dragBox.x = evt.offsetX - this.dragX;
+                this.dragBox.x = eventX - this.dragX;
 
                 this.dragBox.x = this.dragBox.x < this.BOX_LEFT ? this.BOX_LEFT : this.dragBox.x;
                 this.dragBox.x = this.dragBox.x + this.dragBox.w > this.BOX_RIGHT ? this.BOX_RIGHT - this.dragBox.w : this.dragBox.x;
             break;
             case this.DRAG_RIGHT:
-                this.dragBox.w = evt.offsetX - this.dragBox.x;
+                this.dragBox.w = eventX - this.dragBox.x;
 
                 this.dragBox.w = this.dragBox.x + this.dragBox.w > this.BOX_RIGHT ? this.BOX_RIGHT - this.dragBox.x : this.dragBox.w;    
                 
                 this.dragBox.w = this.dragBox.w < this.MIN_BOX_WIDTH ? this.MIN_BOX_WIDTH : this.dragBox.w;
             break;
             case this.DRAG_LEFT:
-                this.dragBox.x = evt.offsetX;
+                this.dragBox.x = eventX;
                 this.dragBox.w = this.rightEdge - this.dragBox.x;
 
                 this.dragBox.w = this.dragBox.w < this.MIN_BOX_WIDTH ? this.MIN_BOX_WIDTH : this.dragBox.w;

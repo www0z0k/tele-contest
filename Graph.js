@@ -173,15 +173,17 @@ class Graph {
   }
 
   highlightValues(evt) {
+    let eventX = evt.clientX - this.main.getBoundingClientRect().left;
+    let eventY = evt.clientY - this.main.getBoundingClientRect().top;
     if(!this.visible 
-      || evt.offsetY < this.GRAPH_Y
-      || evt.offsetY > this.GRAPH_Y + this.GRAPH_H
-      || evt.offsetX > this.X_OFFSET + this.WIDTH
-      || evt.offsetX < this.X_OFFSET){
+      || eventY < this.GRAPH_Y
+      || eventY > this.GRAPH_Y + this.GRAPH_H
+      || eventX > this.X_OFFSET + this.WIDTH
+      || eventX < this.X_OFFSET){
       return;
     }
 
-    let posInRange = (evt.offsetX - this.X_OFFSET) / this.WIDTH;
+    let posInRange = (eventX - this.X_OFFSET) / this.WIDTH;
 
     let startY = this.GRAPH_Y;
     let stopY = this.GRAPH_Y + this.GRAPH_H;
