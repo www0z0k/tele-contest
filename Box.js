@@ -138,7 +138,7 @@ class Box {
         this.dragMode = mode;
         this.stopTweenX && this.stopTweenX();
         this.stopTweenW && this.stopTweenW();
-        
+
         let eventX = (evt.touches ? evt.touches[0].clientX : evt.clientX) - this.getMain().getBoundingClientRect().left;
 
         this.dragX = eventX - this.dragBox.x;
@@ -171,6 +171,9 @@ class Box {
     handleDragMove (evt) {
         let oldX = this.dragBox.x;
         let oldW = this.dragBox.w;
+        if(evt.touches){
+            evt.preventDefault();
+        }
         let eventX = (evt.touches ? evt.touches[0].clientX : evt.clientX) - this.getMain().getBoundingClientRect().left;
         switch(this.dragMode){
             case this.DRAG_ALL:

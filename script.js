@@ -10,7 +10,7 @@ const TO_NIGHT_CAPTION = 'Switch to Night Mode';
 const TO_DAY_CAPTION = 'Switch to Day Mode';
 // alert(window.outerWidth + ',' + window.innerWidth + ',' + window.devicePixelRatio);
 let calcW = window.outerWidth ? window.outerWidth * window.devicePixelRatio : window.innerWidth;
-let targWidth = calcW < 500 ? calcW : 500;
+let targWidth = (calcW < 500 ? calcW : 500) - 60 * window.devicePixelRatio;
 getByID('outer-main').attr('style', 'width:' + (40 + targWidth) + 'px;');
 new GraphDisplay(30, 40, targWidth, 300, 'main', 60, 60, 60, JSON.parse(data));
 
