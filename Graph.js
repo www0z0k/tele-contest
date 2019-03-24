@@ -133,6 +133,7 @@ class Graph {
 
     this.main.addEventListener('click', this.highlightValues.bind(this));
     this.main.addEventListener('mousemove', (evt) => {if(evt.buttons)this.highlightValues(evt)});
+    this.main.addEventListener('touchmove', (evt) => {this.highlightValues(evt)});
   }
 
   hide(){
