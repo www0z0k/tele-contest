@@ -130,7 +130,7 @@ class GraphDisplay{
 	toggleMode(){
 	    this.dayMode = !this.dayMode;
 	    this.modeSwitch.innerHTML = this.dayMode ? TO_NIGHT_CAPTION : TO_DAY_CAPTION;
-	    this.boxes.map((box) => {box.setColors(this.dayMode ? '#ffffff66' : '#212F3E55')});
+	    this.boxes.map((box) => {box.setColors(this.dayMode ? '#ffffff' : '#212F3E')});
 	    getByID(this.svgRootID).parentNode.style['background-color'] = this.dayMode ? '#ffffff' : '#212F3E';
 	    // getByID('bg').attr('fill', dayMode ? '#ffffff' : '#212F3E');
 	    this.dataSets.map((graph) => {graph.setColors((this.dayMode ? '#ffffff' : '#212F3E'), (this.dayMode ? '#000000' : '#F2F4F5'))});

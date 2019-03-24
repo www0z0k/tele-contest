@@ -18,7 +18,7 @@ class Box {
         this.dragBox = {x : x, y : y, w : w, h : h};
 
         this.initBox();
-        this.setColors('#ffffff66');
+        this.setColors('#ffffff');
         this.updateBox();
 
         this.handleDragMove = this.handleDragMove.bind(this);
@@ -65,14 +65,14 @@ class Box {
 
     setColors (faderColor) {
         this.getItem('box-fader').attr('fill', faderColor);        
-        this.getItem('box-inner').attr('fill', '#eeffee00');
+        this.getItem('box-inner').attr('fill', '#eeffee');
         this.getItem('box-fader').attr('fill-opacity', 0.3);
         this.getItem('box-inner').attr('fill-opacity', 0);
         
-        this.getItem('box-top').setStyle('#DD669999', '#00000000', 1);
-        this.getItem('box-bottom').setStyle('#DD669999', '#00000000', 1);
-        this.getItem('box-left').setStyle('#DD669999', '#00000000', 5);
-        this.getItem('box-right').setStyle('#DD669999', '#00000000', 5);
+        this.getItem('box-top').setStyle('#DD6699', '#00000000', 1);
+        this.getItem('box-bottom').setStyle('#DD6699', '#00000000', 1);
+        this.getItem('box-left').setStyle('#DD6699', '#00000000', 5);
+        this.getItem('box-right').setStyle('#DD6699', '#00000000', 5);
         
         this.getItem('box-top').attr('fill-opacity', 0);
         this.getItem('box-bottom').attr('fill-opacity', 0);
