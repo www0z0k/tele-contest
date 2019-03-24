@@ -87,6 +87,7 @@ class Graph {
 
 
     let outer = createTag('span', `outer-box-${this.key}`, this.main.parentNode);
+    outer.attr('class', `w100`);
     outer.attr('style', `position:absolute;left:${this.X_OFFSET + 25}px;top:${this.GRAPH_Y + this.GRAPH_H + this.LEGEND_H/3 + 10}px;`);
 
     let i = 0;
@@ -131,12 +132,16 @@ class Graph {
       this.yValues[id].dot.setStyle(this.colors[id], this.dotColor, 2);
     }
 
+    this.prevTouch = {x: 0, y: 0};
+
     this.main.addEventListener('click', this.highlightValues.bind(this));
     this.main.addEventListener('mousemove', (evt) => {if(evt.buttons)this.highlightValues(evt)});
-    this.main.addEventListener('touchmove', (evt) => {
-      evt.preventDefault();
-      this.highlightValues(evt);
+    this.main.addEventListener('touchmove', (evt) => { this.highlightValues(evt); });
+    this.main.addEventListener('touchstart', (evt) => { 
+      this.prevTouch.x = evt.touches[0].clientX;
+      this.prevTouch.y = evt.touches[0].clientY;
     });
+
   }
 
   hide(){
@@ -177,9 +182,20 @@ class Graph {
   }
 
   highlightValues(evt) {
-    let eventX = evt.clientX - this.main.getBoundingClientRect().left;
-    let eventY = evt.clientY - this.main.getBoundingClientRect().top;
+    let eventX = (evt.touches ? evt.touches[0].clientX : evt.clientX) - this.main.getBoundingClientRect().left;
+    let eventY = (evt.touches ? evt.touches[0].clientY : evt.clientY) - this.main.getBoundingClientRect().top;
+
+    let horizontal = true;
+    if(evt.touches){
+      if(Math.abs(this.prevTouch.x - evt.touches[0].clientX) < Math.abs(this.prevTouch.y - evt.touches[0].clientY)){
+        horizontal = false;
+      }
+      this.prevTouch.x = evt.touches[0].clientX;
+      this.prevTouch.y = evt.touches[0].clientY;
+    }
+
     if(!this.visible 
+      || !horizontal
       || eventY < this.GRAPH_Y
       || eventY > this.GRAPH_Y + this.GRAPH_H
       || eventX > this.X_OFFSET + this.WIDTH
@@ -187,6 +203,7 @@ class Graph {
       return;
     }
 
+    evt.preventDefault();
     let posInRange = (eventX - this.X_OFFSET) / this.WIDTH;
 
     let startY = this.GRAPH_Y;
@@ -232,7 +249,7 @@ class Graph {
         b.innerHTML = currYVals[i].id;
         b.style.color = currYVals[i].color;
       }
-      this.accentLabel.attr('style', `position: absolute;height: 65px;border-radius: 5px;border: 1px solid #F2F4F5;left:${this.X_OFFSET + this.WIDTH * posInRange - this.accentLabel.getBoundingClientRect().width * posInRange * 0.9}px;top:${this.GRAPH_Y - 40}px;width100px;color:${this.textColor};background-color:${this.dotColor}`);
+      this.accentLabel.attr('style', `position: absolute;height: 65px;border-radius: 5px;border: 1px solid #F2F4F5;left:${this.X_OFFSET + this.WIDTH * posInRange - this.accentLabel.getBoundingClientRect().width * posInRange * 0.9}px;top:${this.GRAPH_Y - 40}px;color:${this.textColor};background-color:${this.dotColor}`);
       
       this.verticalAccent.show();
       this.verticalAccent.attr('points', `${x},${this.GRAPH_Y} ${x},${this.GRAPH_Y + this.GRAPH_H}`);

@@ -94,7 +94,10 @@ class GraphDisplay{
 	}
 
 	updateYlinesLegend (yMax, index) {
-	    this.yLabels[index].map((arg, i) => { arg.innerHTML = beautifyNum((this.yLabels[index].length - 1 - i) * yMax); });
+	    this.yLabels[index].map((arg, i) => { 
+	    	let val = beautifyNum((this.yLabels[index].length - 1 - i) * yMax);
+	    	arg.innerHTML = isNaN(val) ? val : Math.round(val); 
+	    });
 	}
 
 	initdataSets(input){
@@ -123,6 +126,7 @@ class GraphDisplay{
 
 	    this.modeSwitch = createTag('span', `mode-switch`, getByID(this.svgRootID).parentNode);
 	    this.modeSwitch.innerHTML = TO_NIGHT_CAPTION;
+	    this.modeSwitch.attr('class', `w100`);
 	    this.modeSwitch.attr('style', `position:absolute;left:${this.X_OFFSET + 165}px;top:${this.Y_OFFSET + itemH * input.length + 16}px;cursor:pointer;color:rgb(0,0,238);font-size:1.2em;`);
 	    this.modeSwitch.onclick = this.toggleMode.bind(this);
 	}

@@ -56,11 +56,23 @@ class Box {
         this.getItem('box-left').addEventListener('mousedown', (evt) => { this.startDrag(this.DRAG_LEFT, evt) });
         this.getItem('box-right').addEventListener('mousedown', (evt) => { this.startDrag(this.DRAG_RIGHT, evt) });
         
+        this.getItem('box-inner').addEventListener('touchstart', (evt) => { this.startDrag(this.DRAG_ALL, evt) });
+        this.getItem('box-left').addEventListener('touchstart', (evt) => { this.startDrag(this.DRAG_LEFT, evt) });
+        this.getItem('box-right').addEventListener('touchstart', (evt) => { this.startDrag(this.DRAG_RIGHT, evt) });
+
+        
         this.getItem('box-inner').addEventListener('mouseup', (evt) => { this.stopDrag() });
         this.getItem('box-left').addEventListener('mouseup', (evt) => { this.stopDrag() });
         this.getItem('box-right').addEventListener('mouseup', (evt) => { this.stopDrag() });
+    
+        this.getItem('box-inner').addEventListener('touchend', (evt) => { this.stopDrag() });
+        this.getItem('box-left').addEventListener('touchend', (evt) => { this.stopDrag() });
+        this.getItem('box-right').addEventListener('touchend', (evt) => { this.stopDrag() });
+
+
         document.body.addEventListener('mouseup', (evt) => { this.stopDrag() });
         document.body.addEventListener('mousemove', (evt) => { if(!evt.buttons) this.stopDrag() });
+        document.body.addEventListener('touchend', (evt) => { this.stopDrag() });
     }
 
     setColors (faderColor) {
@@ -126,16 +138,20 @@ class Box {
         this.dragMode = mode;
         this.stopTweenX && this.stopTweenX();
         this.stopTweenW && this.stopTweenW();
-        let eventX = evt.clientX - this.getMain().getBoundingClientRect().left;
+        
+        let eventX = (evt.touches ? evt.touches[0].clientX : evt.clientX) - this.getMain().getBoundingClientRect().left;
+
         this.dragX = eventX - this.dragBox.x;
         this.leftEdge = this.dragBox.x;
         this.rightEdge = this.dragBox.x + this.dragBox.w;
         this.getMain().addEventListener('mousemove', this.handleDragMove);
+        this.getMain().addEventListener('touchmove', this.handleDragMove);
     }
 
     stopDrag () {
         this.dragMode = '';
         this.getMain().removeEventListener('mousemove', this.handleDragMove);
+        this.getMain().removeEventListener('touchmove', this.handleDragMove);
         if(this.targetX != this.dragBox.x){
             this.stopTweenX = tweenToValue(this.dragBox, 'x', this.dragBox.x, this.targetX, 5, this.updateBox.bind(this), 'out');
         }
@@ -155,7 +171,7 @@ class Box {
     handleDragMove (evt) {
         let oldX = this.dragBox.x;
         let oldW = this.dragBox.w;
-        let eventX = evt.clientX - this.getMain().getBoundingClientRect().left;
+        let eventX = (evt.touches ? evt.touches[0].clientX : evt.clientX) - this.getMain().getBoundingClientRect().left;
         switch(this.dragMode){
             case this.DRAG_ALL:
                 this.dragBox.x = eventX - this.dragX;
