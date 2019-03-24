@@ -62,7 +62,7 @@ class Graph {
       this.yValues[id].dot = createTag('circle', `dot-${id}-${key}`, this.main, true);
 
       this.yValues[id].mini.setStyle(this.colors[id], '#00000000', 1);
-      this.yValues[id].full.setStyle(this.colors[id], '#00000000', 1);
+      this.yValues[id].full.setStyle(this.colors[id], '#00000000', this.WIDTH < 400 ? 1 : 2);
       this.yValues[id].mini.attr('fill-opacity', 0);
       this.yValues[id].full.attr('fill-opacity', 0);
 
@@ -221,7 +221,7 @@ class Graph {
         let y = stopY - this.yValues[id].data[j] / this.yValuesPerPixel();//invert y here
         if(!isNaN(x) && !isNaN(y)){
           this.yValues[id].dot.show();
-          this.yValues[id].dot.attr('r', 3.5);
+          this.yValues[id].dot.attr('r', this.WIDTH < 400 ? 2.5 : 3.5);
           this.yValues[id].dot.attr('cx', x);
           this.yValues[id].dot.attr('cy', y);
           currYVals.push({
