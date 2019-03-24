@@ -63,6 +63,8 @@ class Graph {
 
       this.yValues[id].mini.setStyle(this.colors[id], '#00000000', 1);
       this.yValues[id].full.setStyle(this.colors[id], '#00000000', 2);
+      this.yValues[id].mini.attr('fill-opacity', 0);
+      this.yValues[id].full.attr('fill-opacity', 0);
 
       this.yValues[id].data.map((arg) => {
         this.yValues[id].max = Math.max(this.yValues[id].max, arg);

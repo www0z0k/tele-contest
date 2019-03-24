@@ -66,11 +66,24 @@ class Box {
     setColors (faderColor) {
         this.getItem('box-fader').attr('fill', faderColor);        
         this.getItem('box-inner').attr('fill', '#eeffee00');
+        this.getItem('box-fader').attr('fill-opacity', 0.3);
+        this.getItem('box-inner').attr('fill-opacity', 0);
         
         this.getItem('box-top').setStyle('#DD669999', '#00000000', 1);
         this.getItem('box-bottom').setStyle('#DD669999', '#00000000', 1);
         this.getItem('box-left').setStyle('#DD669999', '#00000000', 5);
         this.getItem('box-right').setStyle('#DD669999', '#00000000', 5);
+        
+        this.getItem('box-top').attr('fill-opacity', 0);
+        this.getItem('box-bottom').attr('fill-opacity', 0);
+        this.getItem('box-left').attr('fill-opacity', 0);
+        this.getItem('box-right').attr('fill-opacity', 0);
+
+        this.getItem('box-top').attr('stroke-opacity', 0.5);
+        this.getItem('box-bottom').attr('stroke-opacity', 0.5);
+        this.getItem('box-left').attr('stroke-opacity', 0.5);
+        this.getItem('box-right').attr('stroke-opacity', 0.5);
+
         
         this.getItem('box-inner').attr('class', 'pointer');
         this.getItem('box-left').attr('class', 'pointer');
