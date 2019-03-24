@@ -87,7 +87,7 @@ class Graph {
 
 
     let outer = createTag('span', `outer-box-${this.key}`, this.main.parentNode);
-    outer.attr('style', `position:absolute;left:${this.X_OFFSET + 25}px;top:${this.GRAPH_Y + this.GRAPH_H + this.LEGEND_H/3 + 10}px;padding:1px;`);
+    outer.attr('style', `position:absolute;left:${this.X_OFFSET + 25}px;top:${this.GRAPH_Y + this.GRAPH_H + this.LEGEND_H/3 + 10}px;`);
 
     let i = 0;
     for (let id in this.yValues) {
@@ -96,7 +96,7 @@ class Graph {
 
       let span = createTag('span', `outer-${id}-${this.key}`, outer);
       span.attr('class', `for-${this.key}`);
-      span.attr('style', `margin-left:7px;border-radius:15px;border:1px solid #c0c0c0;cursor:pointer;`);
+      span.attr('style', `margin-left:7px;border-radius:15px;border:1px solid #c0c0c0;cursor:pointer;padding:2px;`);
 
       let box = createTag('input', `for-${id}-${this.key}`, span);
       box.attr('type', `checkbox`);
