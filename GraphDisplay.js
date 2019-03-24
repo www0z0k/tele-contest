@@ -127,7 +127,7 @@ class GraphDisplay{
 	    this.modeSwitch = createTag('span', `mode-switch`, getByID(this.svgRootID).parentNode);
 	    this.modeSwitch.innerHTML = TO_NIGHT_CAPTION;
 	    this.modeSwitch.attr('class', `w100`);
-	    this.modeSwitch.attr('style', `position:absolute;left:${this.X_OFFSET + 165}px;top:${this.Y_OFFSET + itemH * input.length + 16}px;cursor:pointer;color:rgb(0,0,238);font-size:1.2em;`);
+	    this.modeSwitch.attr('style', `position:absolute;left:${this.X_OFFSET + (this.WIDTH - this.modeSwitch.getBoundingClientRect().width) / 2}px;top:${this.Y_OFFSET + itemH * input.length + 16}px;cursor:pointer;color:rgb(0,0,238);font-size:1.2em;`);
 	    this.modeSwitch.onclick = this.toggleMode.bind(this);
 	}
 

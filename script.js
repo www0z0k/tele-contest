@@ -11,7 +11,13 @@ const TO_DAY_CAPTION = 'Switch to Day Mode';
 // alert(window.outerWidth + ',' + window.innerWidth + ',' + window.devicePixelRatio);
 // let calcW = window.outerWidth ? window.outerWidth * window.devicePixelRatio : window.innerWidth;
 // let targWidth = (calcW < 500 ? calcW : 500) - 60 * window.devicePixelRatio;
-let targWidth = window.innerWidth;
-getByID('outer-main').attr('style', 'width:' + (2 + targWidth) + 'px;');
+let targWidth;
+if(window.outerWidth == 0){
+	targWidth = window.innerWidth;
+}else{
+	targWidth = window.innerWidth / window.devicePixelRatio > 500 ? 500 : window.innerWidth / window.devicePixelRatio;
+}
+// getByID('outer-main').attr('style', 'width:' + (2 + targWidth) + 'px;');
+getByID('outer-main').attr('class', 'w100');
 new GraphDisplay(30, 40, targWidth - 40, 300, 'main', 60, 60, 60, JSON.parse(data));
 
