@@ -1,0 +1,36 @@
+.pointer{
+	cursor: pointer;
+}
+
+html{
+	font-family: sans-serif;
+	-webkit-user-select: none;  
+	-moz-user-select: none;    
+	-ms-user-select: none;      
+	user-select: none;
+}
+
+.checkbox-round {
+    width: 1.3em;
+    height: 1.3em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.checkbox-round:checked {
+    /*background-color: green;*/
+}
+
+.accent-label {
+	position: absolute;
+	/*height: 55px;*/
+	border-radius: 5px;
+	border: 1px solid #F2F4F5;
+	padding: 6px;
+	box-shadow: 0px 0px 1px #00000077;
+}
