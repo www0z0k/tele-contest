@@ -87,7 +87,7 @@ class Graph {
 
 
     let outer = createTag('span', `outer-box-${this.key}`, this.main.parentNode);
-    outer.attr('style', `position:absolute;left:${this.X_OFFSET + 25}px;top:${this.GRAPH_Y + this.GRAPH_H + this.LEGEND_H/3 + 10}px;`);
+    outer.attr('style', `position:absolute;left:${this.X_OFFSET + 25}px;top:${this.GRAPH_Y + this.GRAPH_H + this.LEGEND_H/3 + 10}px;padding:1px;`);
 
     let i = 0;
     for (let id in this.yValues) {
@@ -228,7 +228,7 @@ class Graph {
         b.innerHTML = currYVals[i].id;
         b.style.color = currYVals[i].color;
       }
-      this.accentLabel.attr('style', `position: absolute;height: 55px;border-radius: 5px;border: 1px solid #F2F4F5;left:${this.X_OFFSET + this.WIDTH * posInRange - this.accentLabel.getBoundingClientRect().width * posInRange * 0.9}px;top:${this.GRAPH_Y - 40}px;width100px;color:${this.textColor};background-color:${this.dotColor}`);
+      this.accentLabel.attr('style', `position: absolute;height: 65px;border-radius: 5px;border: 1px solid #F2F4F5;left:${this.X_OFFSET + this.WIDTH * posInRange - this.accentLabel.getBoundingClientRect().width * posInRange * 0.9}px;top:${this.GRAPH_Y - 40}px;width100px;color:${this.textColor};background-color:${this.dotColor}`);
       
       this.verticalAccent.show();
       this.verticalAccent.attr('points', `${x},${this.GRAPH_Y} ${x},${this.GRAPH_Y + this.GRAPH_H}`);
