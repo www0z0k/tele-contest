@@ -10,11 +10,11 @@ const TO_NIGHT_CAPTION = 'Switch to Night Mode';
 const TO_DAY_CAPTION = 'Switch to Day Mode';
 const handleLoad = () => {
 	let targWidth;
-	if(window.outerWidth == 0){
+	// if(window.outerWidth == 0){
 		targWidth = window.innerWidth;
-	}else{
-		targWidth = window.innerWidth / window.devicePixelRatio > 500 ? 500 : window.innerWidth / window.devicePixelRatio;
-	}
+	// }else{
+		// targWidth = window.innerWidth / window.devicePixelRatio > 500 ? 500 : window.innerWidth / window.devicePixelRatio;
+	// }
 	getByID('outer-main').attr('style', 'width:' + (40 + targWidth) + 'px;');
 	new GraphDisplay(30, 40, targWidth - 45, 300, 'main', 60, 60, 60, JSON.parse(data));
 }
