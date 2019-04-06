@@ -8,13 +8,21 @@ const SEASONS = ['Winter', 'Winter', 'Spring', 'Spring', 'Spring', 'Summer', 'Su
 
 const TO_NIGHT_CAPTION = 'Switch to Night Mode';
 const TO_DAY_CAPTION = 'Switch to Day Mode';
+
+let graph;
 const handleLoad = () => {
-	let targWidth;
-	// if(window.outerWidth == 0){
-		targWidth = window.innerWidth;
-	// }else{
-		// targWidth = window.innerWidth / window.devicePixelRatio > 500 ? 500 : window.innerWidth / window.devicePixelRatio;
-	// }
+	let targWidth = window.innerWidth;
+	getByID('main').innerHTML = '';
+	getByID('outer-main').getChildren().forEach((arg) => {
+		// arg.removeFromParent();
+		if(arg.attr && arg.attr('id') != 'main'){
+			getByID('outer-main').removeChild(arg);
+		}
+	});
 	getByID('outer-main').attr('style', 'width:' + (40 + targWidth) + 'px;');
-	new GraphDisplay(30, 40, targWidth - 45, 300, 'main', 60, 60, 60, JSON.parse(data));
+	graph = new GraphDisplay(30, 40, targWidth - 45, 300, 'main', 60, 60, 60, JSON.parse(data));
+}
+
+window.onresize = () => {
+	handleLoad();
 }

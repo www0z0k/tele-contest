@@ -27,8 +27,14 @@ class Box {
         this.targetX = x;
         this.targetW = w;
 
+        this.prevTouch = {x: 0, y: 0};
+
         this.selectionChangeHandler = cb;
     }
+
+    // updateWidth (updatedValue) {
+    //     this.BOX_RIGHT = updatedValue - this.BOX_LEFT;
+    // }
 
     customizeID (id) {
         return id + '-' + this.suffix + this.idKey;
@@ -52,27 +58,73 @@ class Box {
         createTag('polyline', this.customizeID('box-left'), main, true);
         createTag('polyline', this.customizeID('box-right'), main, true);
 
-        this.getItem('box-inner').addEventListener('mousedown', (evt) => { this.startDrag(this.DRAG_ALL, evt) });
-        this.getItem('box-left').addEventListener('mousedown', (evt) => { this.startDrag(this.DRAG_LEFT, evt) });
-        this.getItem('box-right').addEventListener('mousedown', (evt) => { this.startDrag(this.DRAG_RIGHT, evt) });
-        
-        this.getItem('box-inner').addEventListener('touchstart', (evt) => { this.startDrag(this.DRAG_ALL, evt) });
-        this.getItem('box-left').addEventListener('touchstart', (evt) => { this.startDrag(this.DRAG_LEFT, evt) });
-        this.getItem('box-right').addEventListener('touchstart', (evt) => { this.startDrag(this.DRAG_RIGHT, evt) });
-
-        
-        this.getItem('box-inner').addEventListener('mouseup', (evt) => { this.stopDrag() });
-        this.getItem('box-left').addEventListener('mouseup', (evt) => { this.stopDrag() });
-        this.getItem('box-right').addEventListener('mouseup', (evt) => { this.stopDrag() });
-    
-        this.getItem('box-inner').addEventListener('touchend', (evt) => { this.stopDrag() });
-        this.getItem('box-left').addEventListener('touchend', (evt) => { this.stopDrag() });
-        this.getItem('box-right').addEventListener('touchend', (evt) => { this.stopDrag() });
-
+        main.addEventListener('click', this.initialMouseHandler.bind(this));
+        main.addEventListener('mousemove', (evt) => {if(evt.buttons) this.initialMouseHandler(evt)});
+        main.addEventListener('touchmove', (evt) => { this.initialMouseHandler(evt); });
+        main.addEventListener('touchstart', (evt) => { 
+          this.prevTouch.x = evt.touches[0].clientX;
+          this.prevTouch.y = evt.touches[0].clientY;
+        });
 
         document.body.addEventListener('mouseup', (evt) => { this.stopDrag() });
         document.body.addEventListener('mousemove', (evt) => { if(!evt.buttons) this.stopDrag() });
         document.body.addEventListener('touchend', (evt) => { this.stopDrag() });
+    }
+
+    initialMouseHandler (evt) {
+        let eventX = (evt.touches ? evt.touches[0].clientX : evt.clientX) - this.getMain().getBoundingClientRect().left;
+        let eventY = (evt.touches ? evt.touches[0].clientY : evt.clientY) - this.getMain().getBoundingClientRect().top;
+
+        // let horizontal = true;
+        if(evt.touches){
+          // if(Math.abs(this.prevTouch.x - evt.touches[0].clientX) < Math.abs(this.prevTouch.y - evt.touches[0].clientY)){
+            // horizontal = false;
+          // }
+          this.prevTouch.x = evt.touches[0].clientX;
+          this.prevTouch.y = evt.touches[0].clientY;
+        }
+
+        let left = this.dragBox.x;
+        let top = this.dragBox.y;
+        let right = this.dragBox.x + this.dragBox.w;
+        let bottom = this.dragBox.h + this.dragBox.y;
+
+        if(!this.dragMode && eventY > top && eventY < bottom){
+            //y-match
+            if(eventX > left - 10 && eventX < left + 10){
+                this.startDrag(this.DRAG_LEFT, evt);
+            }else if(eventX > right - 10 && eventX < right + 10){
+                this.startDrag(this.DRAG_RIGHT, evt);
+            }else if(eventX > left && eventX < right){
+                this.startDrag(this.DRAG_ALL, evt);
+            }
+        }
+    }
+
+    startDrag (mode, evt) {
+        this.dragMode = mode;
+        this.stopTweenX && this.stopTweenX();
+        this.stopTweenW && this.stopTweenW();
+
+        let eventX = (evt.touches ? evt.touches[0].clientX : evt.clientX) - this.getMain().getBoundingClientRect().left;
+
+        this.dragX = eventX - this.dragBox.x;
+        this.leftEdge = this.dragBox.x;
+        this.rightEdge = this.dragBox.x + this.dragBox.w;
+        this.getMain().addEventListener('mousemove', this.handleDragMove);
+        this.getMain().addEventListener('touchmove', this.handleDragMove);
+    }
+
+    stopDrag () {
+        this.dragMode = '';
+        this.getMain().removeEventListener('mousemove', this.handleDragMove);
+        this.getMain().removeEventListener('touchmove', this.handleDragMove);
+        if(this.targetX != this.dragBox.x){
+            this.stopTweenX = tweenToValue(this.dragBox, 'x', this.dragBox.x, this.targetX, 5, this.updateBox.bind(this), 'out');
+        }
+        if(this.targetW != this.dragBox.w){
+            this.stopTweenW = tweenToValue(this.dragBox, 'w', this.dragBox.w, this.targetW, 5, this.updateBox.bind(this), 'out');
+        }
     }
 
     setColors (faderColor) {
@@ -134,31 +186,6 @@ class Box {
                                                                     });
     }
 
-    startDrag (mode, evt) {
-        this.dragMode = mode;
-        this.stopTweenX && this.stopTweenX();
-        this.stopTweenW && this.stopTweenW();
-
-        let eventX = (evt.touches ? evt.touches[0].clientX : evt.clientX) - this.getMain().getBoundingClientRect().left;
-
-        this.dragX = eventX - this.dragBox.x;
-        this.leftEdge = this.dragBox.x;
-        this.rightEdge = this.dragBox.x + this.dragBox.w;
-        this.getMain().addEventListener('mousemove', this.handleDragMove);
-        this.getMain().addEventListener('touchmove', this.handleDragMove);
-    }
-
-    stopDrag () {
-        this.dragMode = '';
-        this.getMain().removeEventListener('mousemove', this.handleDragMove);
-        this.getMain().removeEventListener('touchmove', this.handleDragMove);
-        if(this.targetX != this.dragBox.x){
-            this.stopTweenX = tweenToValue(this.dragBox, 'x', this.dragBox.x, this.targetX, 5, this.updateBox.bind(this), 'out');
-        }
-        if(this.targetW != this.dragBox.w){
-            this.stopTweenW = tweenToValue(this.dragBox, 'w', this.dragBox.w, this.targetW, 5, this.updateBox.bind(this), 'out');
-        }
-    }
 
     reset () {
         this.dragBox.x = this.BOX_LEFT;

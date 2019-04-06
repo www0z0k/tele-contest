@@ -21,6 +21,10 @@ const getByTag = (tagName) => {
     return Array.prototype.slice.call(document.getElementsByTagName(tagName));
 }
 
+HTMLElement.prototype.getChildren = function() {
+    return Array.prototype.slice.call(this.childNodes);
+};
+
 HTMLElement.prototype.attr = function(name, value) {
     if(value === undefined){
         return this.getAttribute(name);
